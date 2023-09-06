@@ -1,4 +1,5 @@
 import { IsEmail, IsEmpty } from 'class-validator';
+import mongoose from 'mongoose';
 export class CreateUserDto {
   @IsEmpty({ message: 'Please Enter Your Email' })
   fullName: string;
