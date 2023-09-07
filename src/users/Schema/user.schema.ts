@@ -26,11 +26,13 @@ export class User {
   avatar: string;
   @Prop()
   id?: string;
-  @Prop()
+  @Prop({ type: Object })
   createdBy: {
     _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
+  @Prop()
+  refreshToken: string;
   @Prop({ type: Object })
   updatedBy: {
     _id: mongoose.Schema.Types.ObjectId;
