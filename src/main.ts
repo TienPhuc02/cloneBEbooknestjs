@@ -3,6 +3,7 @@ import { AppModule } from './app/app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { TransformInterceptor } from './core/transform.interceptor';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
@@ -14,6 +15,8 @@ async function bootstrap() {
   app.useGlobalGuards(new JwtAuthGuard(reflector));
   // sử dụng bảo vệ route với jwt toàn cầu
 
+  //sử dụng hàm customize response message
+  app.useGlobalInterceptors(new TransformInterceptor(reflector));
   //config cors
   app.enableCors({
     origin: '*',
