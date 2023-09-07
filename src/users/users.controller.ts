@@ -17,6 +17,7 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
+    console.log("🚀 ~ file: users.controller.ts:20 ~ UsersController ~ create ~ createUserDto:", createUserDto)
     const newUser = await this.usersService.create(createUserDto);
     return newUser;
   }
