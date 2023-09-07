@@ -46,7 +46,7 @@ export class User {
   @Prop()
   isDeleted: boolean;
   @Prop({ default: false })
-  deleteAt: Date;
+  deleteAt: boolean;
   @Prop()
   createdAt: Date;
   @Prop()

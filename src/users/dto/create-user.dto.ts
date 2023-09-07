@@ -9,6 +9,8 @@ export class CreateUserDto {
   password: string;
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
+  @IsNotEmpty({ message: 'Please Enter Your Role' })
+  role?: number;
 }
 
 export class RegisterUserDto {

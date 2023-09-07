@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User, UserDocument } from './Schema/user.schema';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -61,5 +62,16 @@ export class UsersService {
   remove(id: string) {
     const deletedUser = this.userModel.deleteOne({ _id: id });
     return deletedUser;
+  }
+  async register(user: RegisterUserDto) {
+    const { fullName, email, password, phone } = user;
+    const hashPassword = this.getHashPassword(password);
+    const newRegister = await this.userModel.create({
+      fullName: fullName,
+      email: email,
+      password: hashPassword,
+      phone: phone,
+    });
+    return newRegister;
   }
 }
