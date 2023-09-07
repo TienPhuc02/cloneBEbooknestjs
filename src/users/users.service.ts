@@ -2,13 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
-import { User } from './Schema/user.schema';
+import mongoose from 'mongoose';
+import { User, UserDocument } from './Schema/user.schema';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
-
+import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>,
+  ) {}
   getHashPassword = (password: string) => {
     const salt = genSaltSync(10);
     const hash = hashSync(password, salt);
@@ -31,7 +33,7 @@ export class UsersService {
   findOneByUsername(username: string) {
     return this.userModel.findOne({ email: username });
   }
-  
+
   isValidPassword(password: string, hashPassword: string) {
     return compareSync(password, hashPassword);
   }

@@ -23,16 +23,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
     return super.canActivate(context);
   }
-  //canActivate:  Phương thức này được ghi đè từ AuthGuard và được gọi khi NestJS kiểm tra xem có nên cho phép yêu cầu đi tiếp hay không. Trong phương thức này, trước khi xác thực yêu cầu, nó kiểm tra metadata được đặt bởi decorator @Public (sử dụng this.reflector.getAllAndOverride). Nếu isPublic là true, thì nó cho phép yêu cầu đi tiếp mà không cần xác thực JWT. Nếu isPublic là false, nó sẽ gọi phương thức super.canActivate(context) để xác thực JWT.
-  
 
   //trả ra lỗi
-  handleRequest(err, user, info) {
+  handleRequest(err, user) {
     if (err || !user) {
       throw err || new UnauthorizedException('Token không hợp lệ');
     }
     return user;
   }
-  //Phương thức này được gọi sau khi xác thực JWT. Nếu có lỗi (err) hoặc không có người dùng (!user), nó sẽ ném một ngoại lệ UnauthorizedException với thông báo "Token không hợp lệ". Nếu xác thực thành công, nó trả về đối tượng người dùng.
 }
-//JwtAuthGuard là một guard rất hữu ích để bảo vệ các route trong ứng dụng của bạn, đảm bảo rằng chỉ những yêu cầu có token JWT hợp lệ mới được phép truy cập

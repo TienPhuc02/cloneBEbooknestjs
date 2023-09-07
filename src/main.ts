@@ -13,6 +13,14 @@ async function bootstrap() {
   //khai báo 1 reflector từ app
   app.useGlobalGuards(new JwtAuthGuard(reflector));
   // sử dụng bảo vệ route với jwt toàn cầu
+
+  //config cors
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
   const port = configService.get<string>('PORT');
   await app.listen(port);
 }
