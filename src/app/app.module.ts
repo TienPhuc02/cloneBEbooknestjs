@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from '../users/users.module';
 import { AuthModule } from '../auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -19,6 +21,13 @@ import { AuthModule } from '../auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    //Đoạn mã này đang thiết lập và đăng ký JwtAuthGuard như một guard toàn cầu để xác thực yêu cầu trong ứng dụng NestJS bằng cách sử dụng JWT.
+  ],
 })
 export class AppModule {}
