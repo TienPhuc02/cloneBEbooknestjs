@@ -27,10 +27,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @ResponseMessage('Login Success!!')
   @Post('/login')
-  handleLogin(
-    @Req() req, //merge type
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  handleLogin(@Req() req, @Res({ passthrough: true }) response: Response) {
     return this.authService.login(req.user, response);
   }
 
@@ -45,5 +42,15 @@ export class AuthController {
   @ResponseMessage('Get Account Success!!')
   handleGetAccount(@User() user: IUser) {
     return user;
+  }
+
+  @ResponseMessage('Get User By Refresh Token Success!!')
+  @Get('/refresh')
+  handleRefreshToken(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const refreshToken = request.cookies['refresh_token'];
+    return this.authService.processNewToken(refreshToken,response);
   }
 }
