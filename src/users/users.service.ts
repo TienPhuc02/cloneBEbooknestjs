@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { User, UserDocument } from './Schema/user.schema';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import { IUser } from './users.interface';
 
 @Injectable()
 export class UsersService {
@@ -18,11 +19,12 @@ export class UsersService {
     return hash;
   };
   async create(createUserDto: CreateUserDto) {
-    const { fullName, email, password, phone } = createUserDto;
+    const { fullName, email, password, phone, role } = createUserDto;
     const hashPassword = this.getHashPassword(password);
     const newUser = await this.userModel.create({
       fullName,
       email,
+      role: 'USER',
       password: hashPassword,
       phone,
     });
@@ -74,4 +76,13 @@ export class UsersService {
     });
     return newRegister;
   }
+  updateUserToken = async (refresh_token: string, _id: string) => {
+    return await this.userModel.updateOne(
+      { _id: _id },
+      {
+        refreshToken: refresh_token,
+      },
+    );
+  };
+  
 }

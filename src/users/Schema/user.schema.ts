@@ -7,25 +7,23 @@ export type UserDocument = HydratedDocument<User>;
 @Schema({ timestamps: true })
 export class User {
   @Prop()
-  @IsEmail({}, { message: 'Invalid Email Message' })
-  @IsNotEmpty({ message: 'Please Enter Your Email' })
-  email: string;
+  @IsNotEmpty({ message: 'Please Enter Your FullName' })
+  fullName: string;
   @Prop()
   @IsNotEmpty({ message: 'Please Enter Your Password' })
   password: string;
   @Prop()
+  @IsEmail({}, { message: 'Invalid Email Message' })
+  @IsNotEmpty({ message: 'Please Enter Your Email' })
+  email: string;
+  @Prop()
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
-  @Prop()
-  @IsNotEmpty({ message: 'Please Enter Your FullName' })
-  fullName: string;
   @Prop()
   @IsNotEmpty({ message: 'Please Enter Your Role' })
   role: string;
   @Prop()
   avatar: string;
-  @Prop()
-  id?: string;
   @Prop({ type: Object })
   createdBy: {
     _id: mongoose.Schema.Types.ObjectId;
@@ -43,10 +41,10 @@ export class User {
     _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
-  @Prop()
-  isDeleted: boolean;
   @Prop({ default: false })
-  deleteAt: boolean;
+  isDeleted: boolean;
+  @Prop()
+  deleteAt: Date;
   @Prop()
   createdAt: Date;
   @Prop()

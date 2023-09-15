@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber } from 'class-validator';
 export class CreateUserDto {
   @IsNotEmpty({ message: 'Please Enter Your FullName' })
   fullName: string;
@@ -7,10 +7,11 @@ export class CreateUserDto {
   email: string;
   @IsNotEmpty({ message: 'Please Enter Your Password' })
   password: string;
+  @IsNumber({}, { message: 'Please Enter Your Number' })
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
   @IsNotEmpty({ message: 'Please Enter Your Role' })
-  role?: number;
+  role: string;
 }
 
 export class RegisterUserDto {
@@ -21,6 +22,7 @@ export class RegisterUserDto {
   email: string;
   @IsNotEmpty({ message: 'Please Enter Your Password' })
   password: string;
+  @IsNumber({}, { message: 'Please Enter Your Number' })
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
 }
