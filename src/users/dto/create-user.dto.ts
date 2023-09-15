@@ -7,11 +7,8 @@ export class CreateUserDto {
   email: string;
   @IsNotEmpty({ message: 'Please Enter Your Password' })
   password: string;
-  @IsNumber({}, { message: 'Please Enter Your Number' })
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
-  @IsNotEmpty({ message: 'Please Enter Your Role' })
-  role: string;
 }
 
 export class RegisterUserDto {

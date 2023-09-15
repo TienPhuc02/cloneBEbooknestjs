@@ -29,8 +29,6 @@ export class User {
     _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
-  @Prop()
-  refreshToken: string;
   @Prop({ type: Object })
   updatedBy: {
     _id: mongoose.Schema.Types.ObjectId;
@@ -41,14 +39,16 @@ export class User {
     _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
-  @Prop({ default: false })
-  isDeleted: boolean;
   @Prop()
-  deleteAt: Date;
+  deletedAt: Date;
   @Prop()
   createdAt: Date;
   @Prop()
   updatedAt: Date;
+  @Prop()
+  refreshToken: string;
+  @Prop({ default: false })
+  isDeleted: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

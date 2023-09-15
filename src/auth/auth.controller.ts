@@ -44,6 +44,7 @@ export class AuthController {
     return user;
   }
 
+  @Public()
   @ResponseMessage('Get User By Refresh Token Success!!')
   @Get('/refresh')
   handleRefreshToken(

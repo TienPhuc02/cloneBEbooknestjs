@@ -77,10 +77,6 @@ export class AuthService {
         secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
       });
       const user = await this.usersService.findUserByToken(refreshToken);
-      console.log(
-        '🚀 ~ file: auth.service.ts:84 ~ AuthService ~ processNewToken= ~ user:',
-        user,
-      );
       if (user) {
         const { _id, fullName, email, role, phone } = user;
         const payload = {
@@ -121,7 +117,7 @@ export class AuthService {
       throw new BadRequestException(`Access Token không hợp lệ.Vui lòng login`);
     }
   };
-  handleLogoutUser = async (user, response) => {
+  handleLogoutUser = async (user:IUser, response:Response) => {
     this.usersService.updateUserToken('', user._id);
     response.clearCookie('refresh_token');
     return 'Logout Success';
