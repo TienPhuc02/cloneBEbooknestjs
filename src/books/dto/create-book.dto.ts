@@ -10,6 +10,7 @@ export class CreateBookDto {
   @IsNotEmpty({ message: 'Please Enter Your Author' })
   author: string;
   @IsNotEmpty({ message: 'Please Enter Your Price' })
+  price:number
   @IsNotEmpty({ message: 'Please Enter Your Sold' })
   sold: number;
   @IsNotEmpty({ message: 'Please Enter Your Quantity' })

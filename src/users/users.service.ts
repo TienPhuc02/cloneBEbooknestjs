@@ -88,7 +88,7 @@ export class UsersService {
     return getUser;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto, user: IUser) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return `not found user`;
     }
@@ -102,6 +102,10 @@ export class UsersService {
         fullName: fullName,
         email: email,
         phone: phone,
+        updatedBy: {
+          _id: user._id,
+          email: user.email,
+        },
       },
     );
     return updateUser;

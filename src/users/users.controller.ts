@@ -24,7 +24,11 @@ export class UsersController {
   @ResponseMessage('Create User  Success!!')
   async create(@Body() createUserDto: CreateUserDto, @User() user: IUser) {
     const newUser = await this.usersService.create(createUserDto, user);
-    return newUser;
+    return {
+      newUser,
+      _id: newUser._id,
+      createdAt: newUser.createdAt,
+    };
   }
   @Post('/bulk-create')
   @ResponseMessage('Create List User  Success!!')
@@ -50,12 +54,18 @@ export class UsersController {
 
   @Put(':id')
   @ResponseMessage('Updated User Success!!')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @User() user: IUser,
+  ) {
+    const newUser = await this.usersService.update(id, updateUserDto, user);
+    return newUser;
   }
   @Delete(':id')
   @ResponseMessage('Deleted User Success!!')
-  remove(@Param('id') id: string, @User() user: IUser) {
-    return this.usersService.remove(id, user);
+  async remove(@Param('id') id: string, @User() user: IUser) {
+    const newUser = await this.usersService.remove(id, user);
+    return newUser;
   }
 }
