@@ -47,6 +47,7 @@ export class AuthService {
     };
     const refresh_token = this.createRefreshToken(payload);
     await this.usersService.updateUserToken(refresh_token, _id);
+    response.clearCookie('refresh_token');
     response.cookie('refresh_token', refresh_token, {
       httpOnly: true,
       maxAge: ms(this.configService.get<string>('JWT_REFRESH_EXPIRE')) * 1000,
@@ -119,5 +120,10 @@ export class AuthService {
     } catch (error) {
       throw new BadRequestException(`Access Token không hợp lệ.Vui lòng login`);
     }
+  };
+  handleLogoutUser = async (user, response) => {
+    this.usersService.updateUserToken('', user._id);
+    response.clearCookie('refresh_token');
+    return 'Logout Success';
   };
 }

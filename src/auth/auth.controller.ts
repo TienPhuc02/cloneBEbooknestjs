@@ -51,6 +51,16 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const refreshToken = request.cookies['refresh_token'];
-    return this.authService.processNewToken(refreshToken,response);
+    return this.authService.processNewToken(refreshToken, response);
+  }
+
+  @ResponseMessage('Logout User Success!!')
+  @Post('/logout')
+  handleLogoutUser(
+    @User() user: IUser,
+    @Res({ passthrough: true }) response: Response,
+    // response thường hay làm việc với refresh token ở cookies
+  ) {
+    return this.authService.handleLogoutUser(user, response);
   }
 }
