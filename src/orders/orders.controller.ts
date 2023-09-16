@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { IUser } from 'src/users/users.interface';
+import { ResponseMessage, User } from 'src/decorator/customize';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  @ResponseMessage('Created A  New Order Success!!')
+  async create(@Body() createOrderDto: CreateOrderDto, @User() user: IUser) {
+    const newOrder = await this.ordersService.create(createOrderDto, user);
+    return newOrder;
   }
 
   @Get()

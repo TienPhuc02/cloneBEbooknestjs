@@ -25,7 +25,6 @@ export class FilesController {
     private readonly multerConfigService: MulterConfigService,
   ) {}
 
-  @Public()
   @Post('upload')
   @UseInterceptors(FileInterceptor('fileImageBook'))
   @ResponseMessage('Upload File Success !!')

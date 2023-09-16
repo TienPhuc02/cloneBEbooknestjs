@@ -10,6 +10,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { BooksModule } from 'src/books/books.module';
 import { FilesModule } from 'src/files/files.module';
+import { OrdersModule } from 'src/orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -28,6 +29,7 @@ import { FilesModule } from 'src/files/files.module';
     AuthModule,
     BooksModule,
     FilesModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [
