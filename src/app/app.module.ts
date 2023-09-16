@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { BooksModule } from 'src/books/books.module';
+import { FilesModule } from 'src/files/files.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -26,6 +27,7 @@ import { BooksModule } from 'src/books/books.module';
     UsersModule,
     AuthModule,
     BooksModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [
