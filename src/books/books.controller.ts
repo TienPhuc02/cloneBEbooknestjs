@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  Put,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -30,8 +32,12 @@ export class BooksController {
 
   @Get()
   @ResponseMessage('Get A Book With Paginate Success !!')
-  findAll() {
-    return this.booksService.findAll();
+  findAll(
+    @Query('current') current: string,
+    @Query('pageSize') pageSize: string,
+    @Query() qs: string,
+  ) {
+    return this.booksService.findAll(current, pageSize, qs);
   }
 
   @Get(':id')
@@ -41,14 +47,19 @@ export class BooksController {
   }
 
   @Patch(':id')
-  @ResponseMessage('UPdate A New Book Success !!')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, updateBookDto);
+  @ResponseMessage('Update A New Book Success !!')
+  async update(
+    @Param('id') id: string,
+    @Body() updateBookDto: UpdateBookDto,
+    @User() user: IUser,
+  ) {
+    const newBook = await this.booksService.update(id, updateBookDto, user);
+    return newBook;
   }
 
   @Delete(':id')
   @ResponseMessage('Delete A Book Success !!')
-  remove(@Param('id') id: string) {
-    return this.booksService.remove(+id);
+  remove(@Param('id') id: string, @User() user: IUser) {
+    return this.booksService.remove(id, user);
   }
 }
