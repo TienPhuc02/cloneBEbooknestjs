@@ -6,7 +6,8 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { TransformInterceptor } from './core/transform.interceptor';
 import { ConfigService } from '@nestjs/config';
 import cookieParser from 'cookie-parser';
-
+import * as express from 'express';
+import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
@@ -25,7 +26,7 @@ async function bootstrap() {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   });
-
+  app.useStaticAssets(join(__dirname, '..', 'public'));
   //api version
   app.setGlobalPrefix('api');
   app.enableVersioning({

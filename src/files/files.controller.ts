@@ -9,7 +9,7 @@ import {
   UseInterceptors,
   ParseFilePipeBuilder,
   HttpStatus,
-
+  Delete,
 } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { CreateFileDto } from './dto/create-file.dto';
@@ -27,9 +27,9 @@ export class FilesController {
 
   @Public()
   @Post('upload')
-  @UseInterceptors(FileInterceptor('fileName'))
+  @UseInterceptors(FileInterceptor('fileImageBook'))
   @ResponseMessage('Upload File Success !!')
-  uploadFile(
+  async uploadFile(
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
@@ -45,8 +45,18 @@ export class FilesController {
     )
     file: Express.Multer.File,
   ) {
+    // Lưu thông tin tệp vào MongoDB
+    const fileData = {
+      filename: file.filename,
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      size: file.size,
+    };
+
+    const savedFile = await this.filesService.createFile(fileData);
+
     return {
-      file: file.filename,
+      file: savedFile,
     };
   }
 
@@ -64,7 +74,6 @@ export class FilesController {
   findOne(@Param('id') id: string) {
     return this.filesService.findOne(+id);
   }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFileDto: UpdateFileDto) {
     return this.filesService.update(+id, updateFileDto);
