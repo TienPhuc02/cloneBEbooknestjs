@@ -40,6 +40,7 @@ export class AuthController {
   }
 
   @Get('/account')
+  @ResponseMessage('Get Account Success A New User!!')
   async handleGetAccount(@User() user: IUser) {
     const temp = await this.rolesService.findOne(user.role._id) as any;
     user.permissions = temp.permissions;
@@ -57,8 +58,8 @@ export class AuthController {
     return this.authService.processNewToken(refreshToken, response);
   }
 
-  @ResponseMessage('Logout User Success!!')
   @Post('/logout')
+  @ResponseMessage('Logout User Success!!')
   handleLogoutUser(
     @User() user: IUser,
     @Res({ passthrough: true }) response: Response,

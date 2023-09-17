@@ -14,18 +14,6 @@ export class PermissionsService {
   private permissionModel: SoftDeleteModel<PermissionDocument>;
   async create(createPermissionDto: CreatePermissionDto, user: IUser) {
     const { name, apiPath, method, module } = createPermissionDto;
-    const isExistApiPath = await this.permissionModel.findOne({ apiPath });
-    if (isExistApiPath) {
-      throw new BadRequestException(
-        `apiPath : ${apiPath} đã tồn tại trên hệ thống vui lòng sử dụng apiPath khác`,
-      );
-    }
-    const isExistMethod = await this.permissionModel.findOne({ method });
-    if (isExistMethod) {
-      throw new BadRequestException(
-        `method : ${method} đã tồn tại trên hệ thống vui lòng sử dụng method khác`,
-      );
-    }
     const newPermission = await this.permissionModel.create({
       name,
       apiPath,

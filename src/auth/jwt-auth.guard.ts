@@ -39,23 +39,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         }
         //ley request
         const request: Request = context.switchToHttp().getRequest();
-        console.log("🚀 ~ file: jwt-auth.guard.ts:42 ~ JwtAuthGuard ~ handleRequest ~ request:", request)
         //check permission
         const targetMethod = request.method;
-        // console.log("🚀 ~ file: jwt-auth.guard.ts:44 ~ JwtAuthGuard ~ handleRequest ~ targetMethod:", targetMethod)
         const targetEndpoint = request.route?.path;
-        console.log("🚀 ~ file: jwt-auth.guard.ts:47 ~ JwtAuthGuard ~ handleRequest ~ targetEndpoint:", targetEndpoint)
-        // console.log("🚀 ~ file: jwt-auth.guard.ts:47 ~ JwtAuthGuard ~ handleRequest ~ targetEndpoint:", targetEndpoint)
+  
         const permissions = user?.user?.permissions ?? [];
-        // console.log("🚀 ~ file: jwt-auth.guard.ts:48 ~ JwtAuthGuard ~ handleRequest ~ permissions:", permissions)
         const isExist = permissions.find(
           permission=>
             targetMethod === permission.method &&
             targetEndpoint === permission.apiPath,
-        );
-        console.log(
-          '🚀 ~ file: jwt-auth.guard.ts:43 ~ JwtAuthGuard ~ handleRequest ~ isExist:',
-          isExist,
         );
         if (!isExist) {
           throw new ForbiddenException(
