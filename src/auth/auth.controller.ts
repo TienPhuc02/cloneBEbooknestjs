@@ -15,12 +15,13 @@ import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { UsersService } from '../users/users.service';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { IUser } from 'src/users/users.interface';
+import { RolesService } from 'src/roles/roles.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private usersService: UsersService,
+    private rolesService: RolesService,
   ) {}
 
   @Public()
@@ -39,9 +40,10 @@ export class AuthController {
   }
 
   @Get('/account')
-  @ResponseMessage('Get Account Success!!')
-  handleGetAccount(@User() user: IUser) {
-    return user;
+  async handleGetAccount(@User() user: IUser) {
+    const temp = (await this.rolesService.findOne(user.role._id)) as any;
+    user.permissions = temp.permissions;
+    return { user };
   }
 
   @Public()

@@ -8,6 +8,7 @@ import { LocalStrategy } from './passport/local.stategy';
 import ms from 'ms';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './passport/jwt.stategy';
+import { RolesService } from 'src/roles/roles.service';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { JwtStrategy } from './passport/jwt.stategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy,RolesService],
   exports: [AuthModule],
 })
 export class AuthModule {}

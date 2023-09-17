@@ -17,7 +17,7 @@ export class Role {
   @Prop()
   @IsNotEmpty({ message: 'Please Enter Your Permission' })
   @IsMongoId({ message: 'Each Permission is mongo object id' })
-  permission: mongoose.Schema.Types.ObjectId[];
+  permissions: mongoose.Schema.Types.ObjectId[];
   @Prop()
   updatedAt: Date;
   @Prop()
