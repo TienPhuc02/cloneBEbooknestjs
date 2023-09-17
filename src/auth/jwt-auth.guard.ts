@@ -40,7 +40,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         targetMethod === permission.method &&
         targetEndpoint === permission.apiPath,
     );
-    if (!isExist) {
+    if (isExist) {
       throw new ForbiddenException(
         'Bạn không có quyền để truy cập end point này',
       );

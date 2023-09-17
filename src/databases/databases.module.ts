@@ -11,6 +11,7 @@ import {
 import { Role, RoleSchema } from 'src/roles/Schema/role.schema';
 import { UsersService } from 'src/users/users.service';
 import { User, UserSchema } from 'src/users/Schema/user.schema';
+import { Order, OrderSchema } from 'src/orders/Schema/order.schema';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { User, UserSchema } from 'src/users/Schema/user.schema';
       { name: User.name, schema: UserSchema },
       { name: Permission.name, schema: PermissionSchema },
       { name: Role.name, schema: RoleSchema },
+      { name: Order.name, schema: OrderSchema },
     ]),
   ],
   controllers: [DatabasesController],

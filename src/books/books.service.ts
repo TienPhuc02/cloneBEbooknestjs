@@ -79,8 +79,8 @@ export class BooksService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(id: string) {
+    return await this.bookModel.find({ _id: id });
   }
 
   async update(id: string, updateBookDto: UpdateBookDto, user: IUser) {

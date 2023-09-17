@@ -43,7 +43,7 @@ export class BooksController {
   @Get(':id')
   @ResponseMessage('Get A Book With Id Success !!')
   findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+    return this.booksService.findOne(id);
   }
 
   @Patch(':id')

@@ -9,10 +9,14 @@ import ms from 'ms';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './passport/jwt.stategy';
 import { RolesService } from 'src/roles/roles.service';
+import { RolesModule } from 'src/roles/roles.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Role, RoleSchema } from 'src/roles/Schema/role.schema';
 
 @Module({
   imports: [
     UsersModule,
+    RolesModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -26,9 +30,12 @@ import { RolesService } from 'src/roles/roles.service';
       }),
       inject: [ConfigService],
     }),
+    MongooseModule.forFeature([
+      { name: Role.name, schema: RoleSchema },
+    ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy,RolesService],
+  providers: [AuthService, LocalStrategy, JwtStrategy, RolesService],
   exports: [AuthModule],
 })
 export class AuthModule {}

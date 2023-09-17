@@ -19,7 +19,6 @@ export class RegisterUserDto {
   email: string;
   @IsNotEmpty({ message: 'Please Enter Your Password' })
   password: string;
-  @IsNumber({}, { message: 'Please Enter Your Number' })
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
 }

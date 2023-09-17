@@ -7,6 +7,7 @@ import { Order, OrderDocument } from './Schema/order.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { Book, BookDocument } from 'src/books/Schema/book.schema';
 import aqp from 'api-query-params';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class OrdersService {
@@ -23,18 +24,6 @@ export class OrdersService {
         _id: item._id,
       };
     });
-    // Kiểm tra bookName trong mảng detail
-    // for (const orderDetail of detail) {
-    //   const { bookName } = orderDetail;
-
-    //   // Tìm sách với mainText tương ứng
-    //   const book = await this.bookModel.findOne({ mainText: bookName });
-
-    //   if (!book) {
-    //     // Nếu không tìm thấy sách, bạn có thể xử lý lỗi hoặc báo cáo nó tùy theo yêu cầu của bạn.
-    //     throw new BadRequestException(`Sách với mainText: ${bookName} không tồn tại`);
-    //   }
-    // }
     const newOrder = await this.orderModel.create({
       name,
       phone,
@@ -80,15 +69,48 @@ export class OrdersService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: string) {
+    return await this.orderModel.find({ _id: id });
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: string, updateOrderDto: UpdateOrderDto, user: IUser) {
+    const { name, phone, totalPrice, detail } = updateOrderDto;
+    const orderDetails = detail.map((item) => {
+      return {
+        bookName: item.bookName,
+        quantity: item.quantity,
+        _id: item._id,
+      };
+    });
+    const newOrder = await this.orderModel.updateOne(
+      { _id: id },
+      {
+        name,
+        phone,
+        totalPrice,
+        detail: orderDetails,
+        updatedBy: {
+          _id: user._id,
+          email: user.email,
+        },
+      },
+    );
+    return newOrder;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: string, user: IUser) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return `not found user`;
+    }
+    await this.orderModel.updateOne(
+      { _id: id },
+      {
+        deletedBy: {
+          _id: user._id,
+          email: user.email,
+        },
+      },
+    );
+    return this.orderModel.softDelete({ _id: id });
   }
 }

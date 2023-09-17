@@ -11,12 +11,12 @@ export class User {
   @IsNotEmpty({ message: 'Please Enter Your FullName' })
   fullName: string;
   @Prop()
-  @IsNotEmpty({ message: 'Please Enter Your Password' })
-  password: string;
-  @Prop()
   @IsEmail({}, { message: 'Invalid Email Message' })
   @IsNotEmpty({ message: 'Please Enter Your Email' })
   email: string;
+  @Prop()
+  @IsNotEmpty({ message: 'Please Enter Your Password' })
+  password: string;
   @Prop()
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;

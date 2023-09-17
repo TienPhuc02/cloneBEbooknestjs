@@ -2,17 +2,16 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import { Permission, PermissionDocument } from 'src/permissions/Schema/permission.schema';
+import {
+  Permission,
+  PermissionDocument,
+} from 'src/permissions/Schema/permission.schema';
 import { Role, RoleDocument } from 'src/roles/Schema/role.schema';
-
-
 
 import { UsersService } from 'src/users/users.service';
 import { ADMIN_ROLE, INIT_PERMISSIONS, USER_ROLE } from './sample';
 import { User, UserDocument } from 'src/users/Schema/user.schema';
-
-
-
+import { Order, OrderDocument } from 'src/orders/Schema/order.schema';
 
 @Injectable()
 export class DatabasesService implements OnModuleInit {
@@ -27,6 +26,8 @@ export class DatabasesService implements OnModuleInit {
 
     @InjectModel(Role.name)
     private roleModel: SoftDeleteModel<RoleDocument>,
+    @InjectModel(Order.name)
+    private orderModel: SoftDeleteModel<OrderDocument>,
 
     private configService: ConfigService,
     private userService: UsersService,
@@ -69,38 +70,37 @@ export class DatabasesService implements OnModuleInit {
         const userRole = await this.roleModel.findOne({ name: USER_ROLE });
         await this.userModel.insertMany([
           {
-            name: "I'm admin",
+            fullName: "I'm admin",
             email: 'admin@gmail.com',
             password: this.userService.getHashPassword(
               this.configService.get<string>('INIT_PASSWORD'),
             ),
-            age: 69,
-            gender: 'MALE',
-            address: 'VietNam',
+            phone: 123456789,
             role: adminRole?._id,
+            avatar:""
           },
-          {
-            name: "I'm Hỏi Dân IT",
-            email: 'hoidanit@gmail.com',
-            password: this.userService.getHashPassword(
-              this.configService.get<string>('INIT_PASSWORD'),
-            ),
-            age: 96,
-            gender: 'MALE',
-            address: 'VietNam',
-            role: adminRole?._id,
-          },
-          {
-            name: "I'm normal user",
-            email: 'user@gmail.com',
-            password: this.userService.getHashPassword(
-              this.configService.get<string>('INIT_PASSWORD'),
-            ),
-            age: 69,
-            gender: 'MALE',
-            address: 'VietNam',
-            role: userRole?._id,
-          },
+          // {
+          //   name: "Đỗ Tiến Phúc",
+          //   email: 'dotienphuc@gmail.com',
+          //   password: this.userService.getHashPassword(
+          //     this.configService.get<string>('INIT_PASSWORD'),
+          //   ),
+          //   age: 96,
+          //   gender: 'MALE',
+          //   address: 'VietNam',
+          //   role: adminRole?._id,
+          // },
+          // {
+          //   name: "I'm normal user",
+          //   email: 'user@gmail.com',
+          //   password: this.userService.getHashPassword(
+          //     this.configService.get<string>('INIT_PASSWORD'),
+          //   ),
+          //   age: 69,
+          //   gender: 'MALE',
+          //   address: 'VietNam',
+          //   role: userRole?._id,
+          // },
         ]);
       }
 
@@ -108,5 +108,12 @@ export class DatabasesService implements OnModuleInit {
         this.logger.log('>>> ALREADY INIT SAMPLE DATA...');
       }
     }
+  }
+  async getOrderCount(): Promise<number> {
+    return this.orderModel.countDocuments().exec();
+  }
+
+  async getUserCount(): Promise<number> {
+    return this.userModel.countDocuments().exec();
   }
 }
