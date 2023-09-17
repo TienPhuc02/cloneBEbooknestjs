@@ -23,13 +23,11 @@ export class AuthService {
       const isValid = this.usersService.isValidPassword(pass, user.password);
       if (isValid === true) {
         const userRole = user.role as unknown as { _id: string; name: string };
-        console.log("🚀 ~ file: auth.service.ts:26 ~ AuthService ~ validateUser ~ userRole:", userRole)
         const role = await this.rolesService.findOne(userRole._id);
         const objUser = {
           ...user.toObject(),
           permissions: role?.permissions ?? [],
         };
-        console.log("🚀 ~ file: auth.service.ts:29 ~ AuthService ~ validateUser ~ objUser:", objUser)
         return objUser;
       }
     }

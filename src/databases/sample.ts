@@ -23,6 +23,26 @@ export const INIT_PERMISSIONS = [
     },
   },
   {
+    _id: '648ab415f4328bd3153ee211',
+    name: 'Get Account ',
+    apiPath: '/api/v1/auth/account',
+    method: 'GET',
+    module: 'USERS',
+    createdBy: {
+      _id: '6506739c2170d4ced9374ef4',
+      email: 'admin@gmail.com',
+    },
+    isDeleted: false,
+    deletedAt: null,
+    createdAt: '2023-09-17T06:47:49.369Z',
+    updatedAt: '2023-09-17T06:54:05.131Z',
+    __v: 0,
+    updatedBy: {
+      _id: '6506739c2170d4ced9374ef4',
+      email: 'admin@gmail.com',
+    },
+  },
+  {
     _id: '648ab436f4328bd3153ee216',
     name: 'Create user',
     apiPath: '/api/v1/users',

@@ -8,6 +8,7 @@ import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from 'src/decorator/customize';
+import path from 'path';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -26,34 +27,41 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  //trả ra lỗi
+  //khong public
   handleRequest(err, user, info, context: ExecutionContext) {
-    //ley request
-    const request: Request = context.switchToHttp().getRequest();
-
-    //check permission
-    const targetMethod = request.method;
-    const targetEndpoint = request.route?.path;
-    const permissions = user?.permissions ?? [];
-    const isExist = permissions.find(
-      (permission) =>
-        targetMethod === permission.method &&
-        targetEndpoint === permission.apiPath,
-    );
-    console.log("🚀 ~ file: jwt-auth.guard.ts:43 ~ JwtAuthGuard ~ handleRequest ~ isExist:", isExist)
-    if (!isExist) {
-      throw new ForbiddenException(
-        'Bạn không có quyền để truy cập end point này',
-      );
-    }
     if (err || !user) {
       throw (
         err ||
         new UnauthorizedException(
           'Token không hợp lệ/không có Bearer Token ở Header',
-        )
-      );
-    }
-    return user;
+          )
+          );
+        }
+        //ley request
+        const request: Request = context.switchToHttp().getRequest();
+        console.log("🚀 ~ file: jwt-auth.guard.ts:42 ~ JwtAuthGuard ~ handleRequest ~ request:", request)
+        //check permission
+        const targetMethod = request.method;
+        // console.log("🚀 ~ file: jwt-auth.guard.ts:44 ~ JwtAuthGuard ~ handleRequest ~ targetMethod:", targetMethod)
+        const targetEndpoint = request.route?.path;
+        console.log("🚀 ~ file: jwt-auth.guard.ts:47 ~ JwtAuthGuard ~ handleRequest ~ targetEndpoint:", targetEndpoint)
+        // console.log("🚀 ~ file: jwt-auth.guard.ts:47 ~ JwtAuthGuard ~ handleRequest ~ targetEndpoint:", targetEndpoint)
+        const permissions = user?.user?.permissions ?? [];
+        // console.log("🚀 ~ file: jwt-auth.guard.ts:48 ~ JwtAuthGuard ~ handleRequest ~ permissions:", permissions)
+        const isExist = permissions.find(
+          permission=>
+            targetMethod === permission.method &&
+            targetEndpoint === permission.apiPath,
+        );
+        console.log(
+          '🚀 ~ file: jwt-auth.guard.ts:43 ~ JwtAuthGuard ~ handleRequest ~ isExist:',
+          isExist,
+        );
+        if (!isExist) {
+          throw new ForbiddenException(
+            'Bạn không có quyền để truy cập end point này',
+          );
+        }
+        return user;
   }
 }
