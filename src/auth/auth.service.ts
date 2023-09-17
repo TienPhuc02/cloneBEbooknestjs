@@ -23,11 +23,13 @@ export class AuthService {
       const isValid = this.usersService.isValidPassword(pass, user.password);
       if (isValid === true) {
         const userRole = user.role as unknown as { _id: string; name: string };
-        const temp = await this.rolesService.findOne(userRole._id);
+        console.log("🚀 ~ file: auth.service.ts:26 ~ AuthService ~ validateUser ~ userRole:", userRole)
+        const role = await this.rolesService.findOne(userRole._id);
         const objUser = {
           ...user.toObject(),
-          permissions: temp?.permissions ?? [],
+          permissions: role?.permissions ?? [],
         };
+        console.log("🚀 ~ file: auth.service.ts:29 ~ AuthService ~ validateUser ~ objUser:", objUser)
         return objUser;
       }
     }
@@ -43,7 +45,7 @@ export class AuthService {
   };
 
   async login(user: IUser, response: Response) {
-    const { _id, email, fullName, role, avatar, phone } = user;
+    const { _id, email, fullName, role, phone, permissions } = user;
     const payload = {
       sub: 'token login',
       iss: 'from server',
@@ -68,6 +70,7 @@ export class AuthService {
         fullName: fullName,
         role: role,
         id: _id,
+        permissions: user.permissions,
       },
     };
   }
@@ -103,6 +106,8 @@ export class AuthService {
 
         //check xem đúng với refresh token của user tạo refresh token đấy hay không
 
+        const userRole = user.role as unknown as { _id: string; name: string };
+        const temp = await this.rolesService.findOne(userRole._id);
         //set cookies as refresh token
         response.clearCookie('refresh_token');
         response.cookie('refresh_token', refresh_token, {
@@ -118,6 +123,7 @@ export class AuthService {
             email,
             phone,
             role,
+            permissions: temp?.permissions ?? [],
           },
         };
       }

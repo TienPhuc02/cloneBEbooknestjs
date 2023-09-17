@@ -33,14 +33,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     //check permission
     const targetMethod = request.method;
-    const targetEndpoint = request?.path;
+    const targetEndpoint = request.route?.path;
     const permissions = user?.permissions ?? [];
     const isExist = permissions.find(
       (permission) =>
         targetMethod === permission.method &&
         targetEndpoint === permission.apiPath,
     );
-    if (isExist) {
+    console.log("🚀 ~ file: jwt-auth.guard.ts:43 ~ JwtAuthGuard ~ handleRequest ~ isExist:", isExist)
+    if (!isExist) {
       throw new ForbiddenException(
         'Bạn không có quyền để truy cập end point này',
       );

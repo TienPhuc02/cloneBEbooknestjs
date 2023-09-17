@@ -31,12 +31,10 @@ export class UsersService {
         `Email : ${email} đã tồn tại trên hệ thống vui lòng sử dụng Email khác`,
       );
     }
-    const userRole = await this.roleModel.findOne({ name: USER_ROLE });
     const hashPassword = this.getHashPassword(password);
     const newUser = await this.userModel.create({
       fullName,
       email,
-      role: userRole?._id,
       password: hashPassword,
       phone,
       createdBy: {
@@ -47,7 +45,7 @@ export class UsersService {
     return newUser;
   }
   async findAll(current: string, pageSize: string, qs: string) {
-    const { filter, sort, population } = aqp(qs);
+    const { filter, sort, population, projection } = aqp(qs);
     delete filter.current;
     delete filter.pageSize; // bỏ qua current và pageSize để lấy full item trước đã rồi lọc
     const offset: number = (+current - 1) * +pageSize; // bỏ qua bao nhiêu phần tử
@@ -61,7 +59,7 @@ export class UsersService {
       // bỏ qua bao nhiêu phần tử
       .limit(defaultLimit)
       // bao nhiêu phần tử 1 trang
-      .select('-password')
+      .select(projection as any)
       .sort(filter.sort)
       .populate(population)
       .exec();
@@ -78,7 +76,9 @@ export class UsersService {
     };
   }
   findOneByUsername(username: string) {
-    return this.userModel.findOne({ email: username });
+    return this.userModel
+      .findOne({ email: username })
+      .populate({ path: 'role', select: { name: 1 } });
   }
 
   isValidPassword(password: string, hashPassword: string) {
@@ -149,12 +149,15 @@ export class UsersService {
         `Email : ${email} đã tồn tại trên hệ thống vui lòng sử dụng Email khác`,
       );
     }
+    //fetch user role
+    const userRole = await this.roleModel.findOne({ name: USER_ROLE });
     const hashPassword = this.getHashPassword(password);
     const newRegister = await this.userModel.create({
       fullName: fullName,
       email: email,
       password: hashPassword,
       phone: phone,
+      role: userRole?._id,
     });
     return newRegister;
   }
@@ -209,5 +212,65 @@ export class UsersService {
         email: user.email,
       },
     };
+  }
+  async changePassword(
+    email: string,
+    oldPassword: string,
+    newPassword: string,
+  ) {
+    const user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      throw new BadRequestException('Người dùng không tồn tại');
+    }
+
+    if (!this.isValidPassword(oldPassword, user.password)) {
+      throw new BadRequestException('Mật khẩu cũ không đúng');
+    }
+
+    const hashPassword = this.getHashPassword(newPassword);
+
+    await this.userModel.updateOne(
+      { _id: user._id },
+      { password: hashPassword },
+    );
+
+    return 'Mật khẩu đã được thay đổi thành công';
+  }
+  async updateUserInfo(
+    _id: string,
+    fullName: string,
+    phone: string,
+    avatar: string,
+  ) {
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      throw new BadRequestException('ID người dùng không hợp lệ');
+    }
+
+    const updateData: Record<string, any> = {};
+
+    if (fullName) {
+      updateData.fullName = fullName;
+    }
+
+    if (phone) {
+      updateData.phone = phone;
+    }
+
+    if (avatar) {
+      updateData.avatar = avatar;
+    }
+
+    const updatedUser = await this.userModel.findOneAndUpdate(
+      { _id },
+      updateData,
+      { new: true },
+    );
+
+    if (!updatedUser) {
+      throw new BadRequestException('Không tìm thấy người dùng');
+    }
+
+    return updatedUser;
   }
 }

@@ -8,21 +8,18 @@ export type UserDocument = HydratedDocument<User>;
 @Schema({ timestamps: true })
 export class User {
   @Prop()
-  @IsNotEmpty({ message: 'Please Enter Your FullName' })
+
   fullName: string;
   @Prop()
-  @IsEmail({}, { message: 'Invalid Email Message' })
-  @IsNotEmpty({ message: 'Please Enter Your Email' })
+
   email: string;
   @Prop()
-  @IsNotEmpty({ message: 'Please Enter Your Password' })
+
   password: string;
   @Prop()
-  @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Role.name })
-  @IsNotEmpty({ message: 'Please Enter Your Role' })
-  role: string;
+  role: mongoose.Schema.Types.ObjectId;
   @Prop()
   avatar: string;
   @Prop({ type: Object })

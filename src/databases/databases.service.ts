@@ -77,30 +77,35 @@ export class DatabasesService implements OnModuleInit {
             ),
             phone: 123456789,
             role: adminRole?._id,
-            avatar:""
+            avatar:
+              'public/images/avatar/377122024_1244403676224986_1506577681195276359_n-1694938612961.jpg',
           },
-          // {
-          //   name: "Đỗ Tiến Phúc",
-          //   email: 'dotienphuc@gmail.com',
-          //   password: this.userService.getHashPassword(
-          //     this.configService.get<string>('INIT_PASSWORD'),
-          //   ),
-          //   age: 96,
-          //   gender: 'MALE',
-          //   address: 'VietNam',
-          //   role: adminRole?._id,
-          // },
-          // {
-          //   name: "I'm normal user",
-          //   email: 'user@gmail.com',
-          //   password: this.userService.getHashPassword(
-          //     this.configService.get<string>('INIT_PASSWORD'),
-          //   ),
-          //   age: 69,
-          //   gender: 'MALE',
-          //   address: 'VietNam',
-          //   role: userRole?._id,
-          // },
+          {
+            name: 'Đỗ Tiến Phúc',
+            email: 'dotienphuc@gmail.com',
+            password: this.userService.getHashPassword(
+              this.configService.get<string>('INIT_PASSWORD'),
+            ),
+            age: 96,
+            gender: 'MALE',
+            address: 'VietNam',
+            role: adminRole?._id,
+            avatar:
+              '377122024_1244403676224986_1506577681195276359_n-1694923563114.jpg',
+          },
+          {
+            name: "I'm normal user",
+            email: 'user@gmail.com',
+            password: this.userService.getHashPassword(
+              this.configService.get<string>('INIT_PASSWORD'),
+            ),
+            age: 69,
+            gender: 'MALE',
+            address: 'VietNam',
+            role: userRole?._id,
+            avatar:
+              '377122024_1244403676224986_1506577681195276359_n-1694923563114.jpg',
+          },
         ]);
       }
 

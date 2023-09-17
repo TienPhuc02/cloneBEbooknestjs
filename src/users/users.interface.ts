@@ -15,4 +15,4 @@ export interface IUser {
     module: string;
   }[];
 }
-// data trả về thông tin của user khi hành động điều gì đó
+ 

@@ -42,7 +42,7 @@ export class PermissionsService {
     };
   }
   async findAll(current: string, pageSize: string, qs: string) {
-    const { filter, sort, population } = aqp(qs);
+    const { filter, sort, population,projection } = aqp(qs);
     delete filter.current;
     delete filter.pageSize; // bỏ qua current và pageSize để lấy full item trước đã rồi lọc
     const offset: number = (+current - 1) * +pageSize; // bỏ qua bao nhiêu phần tử
@@ -56,7 +56,7 @@ export class PermissionsService {
       // bỏ qua bao nhiêu phần tử
       .limit(defaultLimit)
       // bao nhiêu phần tử 1 trang
-      .select('-password')
+      .select(projection as any)
       .sort(filter.sort)
       .populate(population)
       .exec();

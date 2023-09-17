@@ -35,7 +35,7 @@ export class RolesService {
   }
 
   async findAll(current: string, pageSize: string, qs: string) {
-    const { filter, sort, population } = aqp(qs);
+    const { filter, sort, population,projection } = aqp(qs);
     delete filter.current;
     delete filter.pageSize; // bỏ qua current và pageSize để lấy full item trước đã rồi lọc
     const offset: number = (+current - 1) * +pageSize; // bỏ qua bao nhiêu phần tử
@@ -49,7 +49,7 @@ export class RolesService {
       // bỏ qua bao nhiêu phần tử
       .limit(defaultLimit)
       // bao nhiêu phần tử 1 trang
-      .select('-password')
+      .select(projection as any)
       .sort(filter.sort)
       .populate(population)
       .exec();
@@ -70,7 +70,8 @@ export class RolesService {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new BadRequestException('not found role');
     }
-    return (await this.roleModel.findById(id)).populate({
+
+    return (await this.roleModel.findById({ _id: id })).populate({
       path: 'permissions',
       select: { _id: 1, apiPath: 1, name: 1, method: 1, module: 1 },
     });
@@ -97,10 +98,7 @@ export class RolesService {
   }
 
   async remove(id: string, user: IUser) {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return `not found user`;
-    }
-    const foundRole = await this.roleModel.findById({ _id: id });
+    const foundRole = await this.roleModel.findById(id);
     if (foundRole.name === ADMIN_ROLE) {
       throw new BadRequestException('không thể xóa role Admin');
     }

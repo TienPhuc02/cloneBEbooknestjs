@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsBoolean, IsMongoId, IsNotEmpty } from 'class-validator';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { Permission } from 'src/permissions/Schema/permission.schema';
 export type RoleDocument = HydratedDocument<Role>;
 @Schema({ timestamps: true })
 export class Role {
@@ -14,9 +15,7 @@ export class Role {
   @IsNotEmpty({ message: 'Please Enter Your IsActive' })
   @IsBoolean({ message: 'Please Enter Your Boolean' })
   isActive: boolean;
-  @Prop()
-  @IsNotEmpty({ message: 'Please Enter Your Permission' })
-  @IsMongoId({ message: 'Each Permission is mongo object id' })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: Permission.name })
   permissions: mongoose.Schema.Types.ObjectId[];
   @Prop()
   updatedAt: Date;

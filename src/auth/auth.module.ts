@@ -12,6 +12,7 @@ import { RolesService } from 'src/roles/roles.service';
 import { RolesModule } from 'src/roles/roles.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Role, RoleSchema } from 'src/roles/Schema/role.schema';
+import { PermissionsService } from 'src/permissions/permissions.service';
 
 @Module({
   imports: [
@@ -30,12 +31,15 @@ import { Role, RoleSchema } from 'src/roles/Schema/role.schema';
       }),
       inject: [ConfigService],
     }),
-    MongooseModule.forFeature([
-      { name: Role.name, schema: RoleSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, RolesService],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    RolesService,
+  ],
   exports: [AuthModule],
 })
 export class AuthModule {}

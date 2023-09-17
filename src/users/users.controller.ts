@@ -68,4 +68,23 @@ export class UsersController {
     const newUser = await this.usersService.remove(id, user);
     return newUser;
   }
+  @Post('/change-password')
+  @ResponseMessage('Thay đổi mật khẩu thành công')
+  async changePassword(
+    @Body('email') email: string,
+    @Body('oldpass') oldPassword: string,
+    @Body('newpass') newPassword: string,
+  ) {
+    return this.usersService.changePassword(email, oldPassword, newPassword);
+  }
+  @Put('/api/v1/user')
+  @ResponseMessage('Cập nhật thông tin người dùng thành công')
+  async updateUserInfo(
+    @Body('_id') _id: string,
+    @Body('fullName') fullName: string,
+    @Body('phone') phone: string,
+    @Body('avatar') avatar: string,
+  ) {
+    return this.usersService.updateUserInfo(_id, fullName, phone, avatar);
+  }
 }
