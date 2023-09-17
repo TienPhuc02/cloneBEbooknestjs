@@ -14,6 +14,7 @@ import { OrdersModule } from 'src/orders/orders.module';
 import { PermissionsModule } from 'src/permissions/permissions.module';
 import { RolesModule } from 'src/roles/roles.module';
 import { DatabasesModule } from 'src/databases/databases.module';
+import { HistorysModule } from 'src/historys/historys.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -36,6 +37,7 @@ import { DatabasesModule } from 'src/databases/databases.module';
     PermissionsModule,
     RolesModule,
     DatabasesModule,
+    HistorysModule,
   ],
   controllers: [AppController],
   providers: [

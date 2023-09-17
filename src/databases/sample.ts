@@ -365,7 +365,7 @@ export const INIT_PERMISSIONS = [
   {
     _id: '648ab4d5f4328bd3153ee21e',
     name: 'order history',
-    apiPath: '/api/v1/history',
+    apiPath: '/api/v1/historys',
     method: 'GET',
     module: 'HISTORY',
     createdBy: {
@@ -381,7 +381,7 @@ export const INIT_PERMISSIONS = [
   {
     _id: '648ab4d5f4328bd3153ee21c',
     name: 'Update user info',
-    apiPath: '/api/v1/users',
+    apiPath: '/api/v1/users/:id',
     method: 'PATCH',
     module: 'USERS',
     createdBy: {

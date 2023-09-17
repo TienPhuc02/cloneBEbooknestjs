@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto, RegisterUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto, UpdateUserInfo } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User, UserDocument } from './Schema/user.schema';
@@ -103,7 +103,7 @@ export class UsersService {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return `not found user`;
     }
-    const { fullName, email, phone } = updateUserDto;
+    const { fullName, avatar, phone } = updateUserDto;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return 'not found user';
     }
@@ -111,7 +111,7 @@ export class UsersService {
       { _id: id },
       {
         fullName: fullName,
-        email: email,
+        avatar: avatar,
         phone: phone,
         updatedBy: {
           _id: user._id,
@@ -121,20 +121,20 @@ export class UsersService {
     );
     return updateUser;
   }
-  async updateInfo(id: string, updateUserDto: UpdateUserDto, user: IUser) {
+  async updateInfo(id: string, updateUserInfo: UpdateUserInfo, user: IUser) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return `not found user`;
     }
-    const { fullName, email, phone } = updateUserDto;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return 'not found user';
     }
+    const { fullName, phone, avatar } = updateUserInfo;
     const updateUser = await this.userModel.updateOne(
       { _id: id },
       {
         fullName: fullName,
-        email: email,
         phone: phone,
+        avatar: avatar,
         updatedBy: {
           _id: user._id,
           email: user.email,

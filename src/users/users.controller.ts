@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto, UpdateUserInfo } from './dto/update-user.dto';
 import { ResponseMessage, User } from 'src/decorator/customize';
 import { IUser } from './users.interface';
 import { Request } from 'express';
@@ -67,10 +67,10 @@ export class UsersController {
   @ResponseMessage('Updated User Success!!')
   async updateInfo(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body() updateUserInfo: UpdateUserInfo,
     @User() user: IUser,
   ) {
-    const newUser = await this.usersService.updateInfo(id, updateUserDto, user);
+    const newUser = await this.usersService.updateInfo(id, updateUserInfo, user);
     return newUser;
   }
   @Delete(':id')
