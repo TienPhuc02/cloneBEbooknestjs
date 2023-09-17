@@ -26,7 +26,7 @@ export class FilesController {
   ) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('fileImageBook'))
+  @UseInterceptors(FileInterceptor('file'))
   @ResponseMessage('Upload File Success !!')
   async uploadFile(
     @UploadedFile(

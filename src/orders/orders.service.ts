@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Order, OrderDocument } from './Schema/order.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { Book, BookDocument } from 'src/books/Schema/book.schema';
+import aqp from 'api-query-params';
 
 @Injectable()
 export class OrdersService {
@@ -47,8 +48,36 @@ export class OrdersService {
     return newOrder;
   }
 
-  findAll() {
-    return `This action returns all orders`;
+  async findAll(current: string, pageSize: string, qs: string) {
+    const { filter, sort, population } = aqp(qs);
+    delete filter.current;
+    delete filter.pageSize; // bỏ qua current và pageSize để lấy full item trước đã rồi lọc
+    const offset: number = (+current - 1) * +pageSize; // bỏ qua bao nhiêu phần tử
+    const defaultLimit: number = +pageSize ? +pageSize : 10; //lấy ra số phần tử trong 1 trang
+    const totalItems = (await this.orderModel.find(filter)).length; // lấy ra tổng số lượng của tất cả các phần tử
+    const totalPages = Math.ceil(totalItems / defaultLimit); //lấy ra tổng số trang
+    const result = await this.orderModel
+      .find(filter)
+      // tìm theo điều kiện
+      .skip(offset)
+      // bỏ qua bao nhiêu phần tử
+      .limit(defaultLimit)
+      // bao nhiêu phần tử 1 trang
+      .select('-password')
+      .sort(filter.sort)
+      .populate(population)
+      .exec();
+    //chọc xuống database nên sẽ là hàm promise async await
+    return {
+      meta: {
+        current: current, //trang hiện tại
+        pageSize: pageSize, //số lượng bản ghi đã lấy
+        pages: totalPages, //tổng số trang với điều kiện query
+        total: totalItems, // tổng số phần tử (số bản ghi)
+      },
+      result, //kết quả query
+      // không cần phải truyền giá trị currentPage vào hàm findAll vì nó được tính toán trong hàm dựa trên offset và defaultLimit.
+    };
   }
 
   findOne(id: number) {
