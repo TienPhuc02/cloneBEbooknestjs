@@ -18,6 +18,4 @@ export class UpdateUserInfo{
   phone: number;
   @IsEmpty({ message: 'Please Enter Your Phone' })
   avatar: string;
-  @IsEmpty({ message: 'Please Enter Your Phone' })
-  phone: number;
 }

@@ -11,6 +11,8 @@ import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { BooksModule } from 'src/books/books.module';
 import { FilesModule } from 'src/files/files.module';
 import { OrdersModule } from 'src/orders/orders.module';
+import { PermissionsModule } from 'src/permissions/permissions.module';
+import { RolesModule } from 'src/roles/roles.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -30,6 +32,8 @@ import { OrdersModule } from 'src/orders/orders.module';
     BooksModule,
     FilesModule,
     OrdersModule,
+    PermissionsModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [
