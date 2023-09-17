@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   Req,
+  Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -62,6 +63,16 @@ export class UsersController {
     const newUser = await this.usersService.update(id, updateUserDto, user);
     return newUser;
   }
+  @Patch(':id')
+  @ResponseMessage('Updated User Success!!')
+  async updateInfo(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @User() user: IUser,
+  ) {
+    const newUser = await this.usersService.updateInfo(id, updateUserDto, user);
+    return newUser;
+  }
   @Delete(':id')
   @ResponseMessage('Deleted User Success!!')
   async remove(@Param('id') id: string, @User() user: IUser) {
@@ -76,15 +87,5 @@ export class UsersController {
     @Body('newpass') newPassword: string,
   ) {
     return this.usersService.changePassword(email, oldPassword, newPassword);
-  }
-  @Put('/api/v1/user')
-  @ResponseMessage('Cập nhật thông tin người dùng thành công')
-  async updateUserInfo(
-    @Body('_id') _id: string,
-    @Body('fullName') fullName: string,
-    @Body('phone') phone: string,
-    @Body('avatar') avatar: string,
-  ) {
-    return this.usersService.updateUserInfo(_id, fullName, phone, avatar);
   }
 }

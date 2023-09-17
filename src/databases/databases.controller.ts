@@ -18,4 +18,26 @@ export class DatabasesController {
     };
     return responseData;
   }
+  @Get('category')
+  @ResponseMessage('Get Category Success!!')
+  async getCategory() {
+    const categories = [
+      'Arts',
+      'Business',
+      'Comics',
+      'Cooking',
+      'Entertainment',
+      'History',
+      'Music',
+      'Sports',
+      'Teen',
+      'Travel',
+    ];
+
+    const response = {
+      data: categories,
+    };
+
+    return response;
+  }
 }

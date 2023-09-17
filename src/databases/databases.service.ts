@@ -9,9 +9,10 @@ import {
 import { Role, RoleDocument } from 'src/roles/Schema/role.schema';
 
 import { UsersService } from 'src/users/users.service';
-import { ADMIN_ROLE, INIT_PERMISSIONS, USER_ROLE } from './sample';
+import { ADMIN_ROLE, INIT_BOOK, INIT_PERMISSIONS, USER_ROLE } from './sample';
 import { User, UserDocument } from 'src/users/Schema/user.schema';
 import { Order, OrderDocument } from 'src/orders/Schema/order.schema';
+import { Book, BookDocument } from 'src/books/Schema/book.schema';
 
 @Injectable()
 export class DatabasesService implements OnModuleInit {
@@ -28,6 +29,8 @@ export class DatabasesService implements OnModuleInit {
     private roleModel: SoftDeleteModel<RoleDocument>,
     @InjectModel(Order.name)
     private orderModel: SoftDeleteModel<OrderDocument>,
+    @InjectModel(Book.name)
+    private bookModel: SoftDeleteModel<BookDocument>,
 
     private configService: ConfigService,
     private userService: UsersService,
@@ -39,10 +42,15 @@ export class DatabasesService implements OnModuleInit {
       const countUser = await this.userModel.count({});
       const countPermission = await this.permissionModel.count({});
       const countRole = await this.roleModel.count({});
+      const countBook = await this.bookModel.count({});
 
       //create permissions
       if (countPermission === 0) {
         await this.permissionModel.insertMany(INIT_PERMISSIONS);
+        //bulk create
+      }
+      if (countBook === 0) {
+        await this.bookModel.insertMany(INIT_BOOK);
         //bulk create
       }
 
@@ -109,7 +117,12 @@ export class DatabasesService implements OnModuleInit {
         ]);
       }
 
-      if (countUser > 0 && countRole > 0 && countPermission > 0) {
+      if (
+        countUser > 0 &&
+        countRole > 0 &&
+        countPermission > 0 &&
+        countBook > 0
+      ) {
         this.logger.log('>>> ALREADY INIT SAMPLE DATA...');
       }
     }

@@ -121,13 +121,38 @@ export class UsersService {
     );
     return updateUser;
   }
+  async updateInfo(id: string, updateUserDto: UpdateUserDto, user: IUser) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return `not found user`;
+    }
+    const { fullName, email, phone } = updateUserDto;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return 'not found user';
+    }
+    const updateUser = await this.userModel.updateOne(
+      { _id: id },
+      {
+        fullName: fullName,
+        email: email,
+        phone: phone,
+        updatedBy: {
+          _id: user._id,
+          email: user.email,
+        },
+      },
+    );
+    return updateUser;
+  }
 
   async remove(id: string, user: IUser) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return `not found user`;
     }
     const foundUser = await this.userModel.findById(id);
-    console.log("🚀 ~ file: users.service.ts:130 ~ UsersService ~ remove ~ foundUser:", foundUser)
+    console.log(
+      '🚀 ~ file: users.service.ts:130 ~ UsersService ~ remove ~ foundUser:',
+      foundUser,
+    );
     if (foundUser && foundUser.email === 'admin@gmail.com') {
       throw new BadRequestException('không thể xóa tài khoản admin');
     }
@@ -237,41 +262,5 @@ export class UsersService {
     );
 
     return 'Mật khẩu đã được thay đổi thành công';
-  }
-  async updateUserInfo(
-    _id: string,
-    fullName: string,
-    phone: string,
-    avatar: string,
-  ) {
-    if (!mongoose.Types.ObjectId.isValid(_id)) {
-      throw new BadRequestException('ID người dùng không hợp lệ');
-    }
-
-    const updateData: Record<string, any> = {};
-
-    if (fullName) {
-      updateData.fullName = fullName;
-    }
-
-    if (phone) {
-      updateData.phone = phone;
-    }
-
-    if (avatar) {
-      updateData.avatar = avatar;
-    }
-
-    const updatedUser = await this.userModel.findOneAndUpdate(
-      { _id },
-      updateData,
-      { new: true },
-    );
-
-    if (!updatedUser) {
-      throw new BadRequestException('Không tìm thấy người dùng');
-    }
-
-    return updatedUser;
   }
 }

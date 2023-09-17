@@ -35,7 +35,7 @@ export class RolesService {
   }
 
   async findAll(current: string, pageSize: string, qs: string) {
-    const { filter, sort, population,projection } = aqp(qs);
+    const { filter, sort, population, projection } = aqp(qs);
     delete filter.current;
     delete filter.pageSize; // bỏ qua current và pageSize để lấy full item trước đã rồi lọc
     const offset: number = (+current - 1) * +pageSize; // bỏ qua bao nhiêu phần tử
@@ -99,7 +99,7 @@ export class RolesService {
 
   async remove(id: string, user: IUser) {
     const foundRole = await this.roleModel.findById(id);
-    if (foundRole.name === ADMIN_ROLE) {
+    if (foundRole && foundRole.name === ADMIN_ROLE) {
       throw new BadRequestException('không thể xóa role Admin');
     }
     await this.roleModel.updateOne(

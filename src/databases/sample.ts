@@ -131,7 +131,7 @@ export const INIT_PERMISSIONS = [
     __v: 0,
   },
   {
-    _id: '648ab415f4328bd3153ee211',
+    _id: '648ab415f4328bd3153ee212',
     name: 'Get User with paginate',
     apiPath: '/api/v1/users',
     method: 'GET',
@@ -289,7 +289,7 @@ export const INIT_PERMISSIONS = [
   {
     _id: '648ad650dafdb9754f40b8b2',
     name: 'get category',
-    apiPath: '/api/v1/database/dashboard',
+    apiPath: '/api/v1/databases/dashboard',
     method: 'GET',
     module: 'DATABASE',
     createdBy: {
@@ -323,7 +323,7 @@ export const INIT_PERMISSIONS = [
     },
   },
   {
-    _id: '648ab415f4328bd3153ee212',
+    _id: '648ab415f4328bd3153ee213',
     name: 'Get Account  ',
     apiPath: '/api/v1/auth/account',
     method: 'GET',
@@ -343,7 +343,7 @@ export const INIT_PERMISSIONS = [
     },
   },
   {
-    _id: '648ab415f4328bd3153ee213',
+    _id: '648ab415f4328bd3153ee215',
     name: 'Logout Account  ',
     apiPath: '/api/v1/auth/logout',
     method: 'POST',
@@ -382,7 +382,7 @@ export const INIT_PERMISSIONS = [
     _id: '648ab4d5f4328bd3153ee21c',
     name: 'Update user info',
     apiPath: '/api/v1/users',
-    method: 'PUT',
+    method: 'PATCH',
     module: 'USERS',
     createdBy: {
       _id: '6506739c2170d4ced9374ef4',
@@ -557,7 +557,7 @@ export const INIT_PERMISSIONS = [
   {
     _id: '648ad650dafdb9754f40b8b1',
     name: 'get category',
-    apiPath: '/api/v1/database/category',
+    apiPath: '/api/v1/databases/category',
     method: 'GET',
     module: 'DATABASE',
     createdBy: {
@@ -673,7 +673,7 @@ export const INIT_BOOK = [
     },
   },
   {
-    _id: '6504d497ba81358ae21ded6b',
+    _id: '6504d497ba81358ae21ded62',
     thumbnail: '1-5e81d7f66dada42752efb220d7b2956c.jpg',
     slider: ['2-579456815ebd4eb1376341dcd00c4708.jpg'],
     mainText: 'Tiền Đẻ Ra Tiền: Đầu Tư Tài Chính Thông Minh',
@@ -830,7 +830,7 @@ export const INIT_BOOK = [
     author: 'Dorling Kindersley Limited',
     price: 292000,
     sold: 29,
-    category: "Travel",
+    category: 'Travel',
     quantity: 1000,
     createdBy: {
       _id: '6506739c2170d4ced9374ef4',
