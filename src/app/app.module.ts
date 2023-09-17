@@ -13,6 +13,7 @@ import { FilesModule } from 'src/files/files.module';
 import { OrdersModule } from 'src/orders/orders.module';
 import { PermissionsModule } from 'src/permissions/permissions.module';
 import { RolesModule } from 'src/roles/roles.module';
+import { DatabasesModule } from 'src/databases/databases.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -34,6 +35,7 @@ import { RolesModule } from 'src/roles/roles.module';
     OrdersModule,
     PermissionsModule,
     RolesModule,
+    DatabasesModule,
   ],
   controllers: [AppController],
   providers: [

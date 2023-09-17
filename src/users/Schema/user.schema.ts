@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { Role } from 'src/roles/Schema/role.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -19,7 +20,7 @@ export class User {
   @Prop()
   @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
-  @Prop()
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Role.name })
   @IsNotEmpty({ message: 'Please Enter Your Role' })
   role: string;
   @Prop()
