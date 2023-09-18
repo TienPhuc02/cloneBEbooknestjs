@@ -86,7 +86,7 @@ export class DatabasesService implements OnModuleInit {
             phone: 123456789,
             role: adminRole?._id,
             avatar:
-              '/images/avatar/377122024_1244403676224986_1506577681195276359_n-1694938612961.jpg',
+              '377122024_1244403676224986_1506577681195276359_n-1694938612961.jpg',
           },
           {
             name: 'Đỗ Tiến Phúc',
@@ -99,7 +99,7 @@ export class DatabasesService implements OnModuleInit {
             address: 'VietNam',
             role: adminRole?._id,
             avatar:
-              '/images/avatar/377122024_1244403676224986_1506577681195276359_n-1694923563114.jpg',
+              '377122024_1244403676224986_1506577681195276359_n-1694923563114.jpg',
           },
           {
             name: "I'm normal user",
@@ -112,7 +112,7 @@ export class DatabasesService implements OnModuleInit {
             address: 'VietNam',
             role: userRole?._id,
             avatar:
-              '/images/avatar/377122024_1244403676224986_1506577681195276359_n-1694923563114.jpg',
+              '377122024_1244403676224986_1506577681195276359_n-1694923563114.jpg',
           },
         ]);
       }
