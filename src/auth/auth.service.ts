@@ -43,13 +43,14 @@ export class AuthService {
   };
 
   async login(user: IUser, response: Response) {
-    const { _id, email, fullName, role, phone, permissions } = user;
+    const { _id, email, fullName, role, phone, permissions, avatar } = user;
     const payload = {
       sub: 'token login',
       iss: 'from server',
       _id,
       fullName,
       phone,
+      avatar,
       email,
       role,
     };
@@ -67,6 +68,7 @@ export class AuthService {
         phone: phone,
         fullName: fullName,
         role: role,
+        avatar: avatar,
         id: _id,
         permissions: user.permissions,
       },
