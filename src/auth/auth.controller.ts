@@ -43,12 +43,20 @@ export class AuthController {
   @Get('/account')
   @ResponseMessage('Get Account Success A New User!!')
   async handleGetAccount(@User() user: IUser) {
-    console.log("🚀 ~ file: auth.controller.ts:45 ~ AuthController ~ handleGetAccount ~ user:", user)
     const roleId = new mongoose.Types.ObjectId(user.role?._id).toString();
-    const temp = await this.rolesService.findOne(roleId) as any;
-    console.log("🚀 ~ file: auth.controller.ts:46 ~ AuthController ~ handleGetAccount ~ temp:", temp)
+    const temp = (await this.rolesService.findOne(roleId)) as any;
     user.permissions = temp?.permissions;
-    return { user };
+    return {
+      data: {
+        _id: user._id,
+        email: user.email,
+        phone: user.phone,
+        fullName: user.fullName,
+        avatar: user.avatar,
+        role: user.role,
+        permissions: user.permissions,
+      },
+    };
   }
 
   @Public()

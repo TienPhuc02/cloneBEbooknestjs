@@ -39,11 +39,14 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         }
         //ley request
         const request: Request = context.switchToHttp().getRequest();
+
         //check permission
         const targetMethod = request.method;
+    
         const targetEndpoint = request.route?.path;
+
   
-        const permissions = user?.user?.permissions ?? [];
+        const permissions = user?.permissions ?? [];
         const isExist = permissions.find(
           permission=>
             targetMethod === permission.method &&
