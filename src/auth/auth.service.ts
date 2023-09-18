@@ -62,7 +62,7 @@ export class AuthService {
     });
     return {
       access_token: this.jwtService.sign(payload),
-      user: {
+      data: {
         email: email,
         phone: phone,
         fullName: fullName,
@@ -104,7 +104,7 @@ export class AuthService {
 
         //check xem đúng với refresh token của user tạo refresh token đấy hay không
 
-        const userRole = user.role as unknown as { _id: string; name: string };
+        const userRole = user?.role as unknown as { _id: string; name: string };
         const temp = await this.rolesService.findOne(userRole._id);
         //set cookies as refresh token
         response.clearCookie('refresh_token');

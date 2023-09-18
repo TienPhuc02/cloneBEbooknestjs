@@ -75,7 +75,7 @@ export class OrdersService {
 
   async update(id: string, updateOrderDto: UpdateOrderDto, user: IUser) {
     const { name, phone, totalPrice, detail } = updateOrderDto;
-    const orderDetails = detail.map((item) => {
+    const orderDetails = detail?.map((item) => {
       return {
         bookName: item.bookName,
         quantity: item.quantity,

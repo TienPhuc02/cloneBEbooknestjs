@@ -46,7 +46,7 @@ export class BooksController {
     return this.booksService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ResponseMessage('Update A New Book Success !!')
   async update(
     @Param('id') id: string,

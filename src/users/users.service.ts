@@ -212,11 +212,12 @@ export class UsersService {
     }
     const hashPasswordPromises = userList.map(async (userDto) => {
       const { fullName, email, password, phone } = userDto;
+      const userRole = await this.roleModel.findOne({ name: USER_ROLE });
       const hashPassword = this.getHashPassword(password);
       const newUser = {
         fullName,
         email,
-        role: 'USER',
+        role: userRole?._id,
         password: hashPassword,
         phone,
         createdBy: {

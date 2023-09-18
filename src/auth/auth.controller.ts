@@ -16,6 +16,7 @@ import { UsersService } from '../users/users.service';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { IUser } from 'src/users/users.interface';
 import { RolesService } from 'src/roles/roles.service';
+import mongoose from 'mongoose';
 
 @Controller('auth')
 export class AuthController {
@@ -42,8 +43,11 @@ export class AuthController {
   @Get('/account')
   @ResponseMessage('Get Account Success A New User!!')
   async handleGetAccount(@User() user: IUser) {
-    const temp = await this.rolesService.findOne(user.role._id) as any;
-    user.permissions = temp.permissions;
+    console.log("🚀 ~ file: auth.controller.ts:45 ~ AuthController ~ handleGetAccount ~ user:", user)
+    const roleId = new mongoose.Types.ObjectId(user.role?._id).toString();
+    const temp = await this.rolesService.findOne(roleId) as any;
+    console.log("🚀 ~ file: auth.controller.ts:46 ~ AuthController ~ handleGetAccount ~ temp:", temp)
+    user.permissions = temp?.permissions;
     return { user };
   }
 

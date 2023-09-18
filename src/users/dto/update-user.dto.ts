@@ -1,20 +1,20 @@
 
-import { IsEmail, IsEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsEmpty({ message: 'Please Enter Your FullName' })
+  @IsNotEmpty({ message: 'Please Enter Your FullName' })
   fullName: string;
-  @IsEmpty({ message: 'Please Enter Your avatar' })
+  @IsNotEmpty({ message: 'Please Enter Your avatar' })
   avatar: string;
-  @IsEmpty({ message: 'Please Enter Your Phone' })
+  @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
 }
 
 export class UpdateUserInfo{
-  @IsEmpty({ message: 'Please Enter Your FullName' })
+  @IsNotEmpty({ message: 'Please Enter Your FullName' })
   fullName: string;
-  @IsEmpty({ message: 'Please Enter Your Phone' })
+  @IsNotEmpty({ message: 'Please Enter Your Phone' })
   phone: number;
-  @IsEmpty({ message: 'Please Enter Your Avatar' })
+  @IsNotEmpty({ message: 'Please Enter Your Avatar' })
   avatar: string;
 }
