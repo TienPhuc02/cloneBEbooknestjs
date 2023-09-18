@@ -1,8 +1,7 @@
 {
-  "name": "nest-basic-hoidanit",
+  "name": "nest-tien-phuc-cloneBE",
   "version": "0.0.1",
-  "description": "https://hoidanit.com.vn/",
-  "author": "Hỏi Dân IT",
+  "author": "Tien Phuc Dev",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

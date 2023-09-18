@@ -21,11 +21,13 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   //config cors
   app.enableCors({
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
+    credentials: true, // Allow credentials (cookies) to be sent with requests
   });
+
   app.useStaticAssets(join(__dirname, '..', 'public'));
   //api version
   app.setGlobalPrefix('api');
