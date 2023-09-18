@@ -61,7 +61,7 @@ export class BooksService {
       sort = '-price';
     }
     if (sort as  any ==="-sold" ) {
-      // @ts-ignore: Unreachable code error
+      //@ts-ignore: Unreachable code error
       sort = '-sold';
     }
     if (sort as  any ==="-updatedAt" ) {
