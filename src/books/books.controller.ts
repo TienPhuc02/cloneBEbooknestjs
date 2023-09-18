@@ -35,6 +35,7 @@ export class BooksController {
   findAll(
     @Query('current') current: string,
     @Query('pageSize') pageSize: string,
+
     @Query() qs: string,
   ) {
     return this.booksService.findAll(current, pageSize, qs);

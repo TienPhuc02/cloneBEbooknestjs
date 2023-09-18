@@ -7,6 +7,7 @@ import { Book, BookDocument } from './Schema/book.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import aqp from 'api-query-params';
 import mongoose from 'mongoose';
+import { isEmpty } from 'class-validator';
 
 @Injectable()
 export class BooksService {
@@ -55,6 +56,18 @@ export class BooksService {
     const defaultLimit: number = +pageSize ? +pageSize : 10; //lấy ra số phần tử trong 1 trang
     const totalItems = (await this.bookModel.find(filter)).length; // lấy ra tổng số lượng của tất cả các phần tử
     const totalPages = Math.ceil(totalItems / defaultLimit); //lấy ra tổng số trang
+    if (sort as  any ==="-price" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-price';
+    }
+    if (sort as  any ==="-sold" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-sold';
+    }
+    if (sort as  any ==="-updatedAt" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-updatedAt';
+    }
     const result = await this.bookModel
       .find(filter)
       // tìm theo điều kiện
@@ -63,7 +76,7 @@ export class BooksService {
       .limit(defaultLimit)
       // bao nhiêu phần tử 1 trang
       .select('-password')
-      .sort(filter.sort)
+      .sort(sort as any)
       .populate(population)
       .exec();
     //chọc xuống database nên sẽ là hàm promise async await
