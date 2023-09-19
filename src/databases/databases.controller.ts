@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { DatabasesService } from './databases.service';
-import { ResponseMessage } from 'src/decorator/customize';
+import { Public, ResponseMessage } from 'src/decorator/customize';
 
 @Controller('databases')
 export class DatabasesController {
@@ -18,6 +18,7 @@ export class DatabasesController {
     };
     return responseData;
   }
+  @Public()
   @Get('category')
   @ResponseMessage('Get Category Success!!')
   async getCategory() {

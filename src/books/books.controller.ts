@@ -12,7 +12,7 @@ import {
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { ResponseMessage, User } from 'src/decorator/customize';
+import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { IUser } from 'src/users/users.interface';
 
 @Controller('books')
@@ -30,6 +30,7 @@ export class BooksController {
     };
   }
 
+  @Public()
   @Get()
   @ResponseMessage('Get A Book With Paginate Success !!')
   findAll(
