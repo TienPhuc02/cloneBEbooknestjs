@@ -137,16 +137,11 @@ export class UsersService {
     );
     return updateUser;
   }
-  async updateInfo(id: string, updateUserInfo: UpdateUserInfo, user: IUser) {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return `not found user`;
-    }
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return 'not found user';
-    }
+  async updateInfo( updateUserInfo: UpdateUserInfo, user: IUser) {
+   
     const { fullName, phone, avatar } = updateUserInfo;
     const updateUser = await this.userModel.updateOne(
-      { _id: id },
+      { _id: user._id },
       {
         fullName: fullName,
         phone: phone,

@@ -381,8 +381,8 @@ export const INIT_PERMISSIONS = [
   {
     _id: '648ab4d5f4328bd3153ee21c',
     name: 'Update user info',
-    apiPath: '/api/v1/users/:id',
-    method: 'PATCH',
+    apiPath: '/api/v1/users',
+    method: 'PUT',
     module: 'USERS',
     createdBy: {
       _id: '6506739c2170d4ced9374ef4',

@@ -63,14 +63,13 @@ export class UsersController {
     const newUser = await this.usersService.update(id, updateUserDto, user);
     return newUser;
   }
-  @Patch(':id')
+  @Put()
   @ResponseMessage('Updated User Success!!')
   async updateInfo(
-    @Param('id') id: string,
     @Body() updateUserInfo: UpdateUserInfo,
     @User() user: IUser,
   ) {
-    const newUser = await this.usersService.updateInfo(id, updateUserInfo, user);
+    const newUser = await this.usersService.updateInfo( updateUserInfo, user);
     return newUser;
   }
   @Delete(':id')
