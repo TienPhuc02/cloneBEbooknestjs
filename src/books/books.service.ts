@@ -68,6 +68,18 @@ export class BooksService {
       // @ts-ignore: Unreachable code error
       sort = '-updatedAt';
     }
+    if (sort as  any ==="-mainText" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-fullName';
+    }
+    if (sort as  any ==="-category" ) {
+      //@ts-ignore: Unreachable code error
+      sort = '-email';
+    }
+    if (sort as  any ==="-author" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-author';
+    }
     const result = await this.bookModel
       .find(filter)
       // tìm theo điều kiện

@@ -45,6 +45,26 @@ export class OrdersService {
     const defaultLimit: number = +pageSize ? +pageSize : 10; //lấy ra số phần tử trong 1 trang
     const totalItems = (await this.orderModel.find(filter)).length; // lấy ra tổng số lượng của tất cả các phần tử
     const totalPages = Math.ceil(totalItems / defaultLimit); //lấy ra tổng số trang
+    if (sort as  any ==="-price" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-price';
+    }
+    if (sort as  any ==="-name" ) {
+      //@ts-ignore: Unreachable code error
+      sort = '-name';
+    }
+    if (sort as  any ==="-address" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-address';
+    }
+    if (sort as  any ==="-phone" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-phone';
+    }
+    if (sort as  any ==="-updatedAt" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-updatedAt';
+    }
     const result = await this.orderModel
       .find(filter)
       // tìm theo điều kiện

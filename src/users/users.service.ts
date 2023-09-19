@@ -52,6 +52,22 @@ export class UsersService {
     const defaultLimit: number = +pageSize ? +pageSize : 10; //lấy ra số phần tử trong 1 trang
     const totalItems = (await this.userModel.find(filter)).length; // lấy ra tổng số lượng của tất cả các phần tử
     const totalPages = Math.ceil(totalItems / defaultLimit); //lấy ra tổng số trang
+    if (sort as  any ==="-fullName" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-fullName';
+    }
+    if (sort as  any ==="-email" ) {
+      //@ts-ignore: Unreachable code error
+      sort = '-email';
+    }
+    if (sort as  any ==="-phone" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-phone';
+    }
+    if (sort as  any ==="-updatedAt" ) {
+      // @ts-ignore: Unreachable code error
+      sort = '-updatedAt';
+    }
     const result = await this.userModel
       .find(filter)
       // tìm theo điều kiện
@@ -60,7 +76,7 @@ export class UsersService {
       .limit(defaultLimit)
       // bao nhiêu phần tử 1 trang
       .select(projection as any)
-      .sort(filter.sort)
+      .sort(sort as any)
       .populate(population)
       .exec();
     //chọc xuống database nên sẽ là hàm promise async await
